@@ -1,4 +1,5 @@
 const fs = require('fs').promises;
+const crypto = require('crypto');
 
 const lista = 'src/talker.json';
 
@@ -22,7 +23,10 @@ const sendID = async (lendo, id) => {
     }
 };
 
+const geradorToken = () => crypto.randomBytes(8).toString('hex');
+
 module.exports = {
     leitura,
     sendID,
+    geradorToken,
 };
