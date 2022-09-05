@@ -1,8 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { leitura, sendID, geradorToken } = require('./func');
+const { leitura, sendID, geradorToken, palestrante } = require('./func');
 const { vemail } = require('./middlewares/email');
 const { vPassword } = require('./middlewares/password');
+const { checando,
+        nome,
+        idade,
+        rating,
+        talking } = require('./middlewares/talker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -45,3 +50,6 @@ app.post('/login', async (req, res) => {
     return res.status(200).json({ token: token1 });
   }
 });
+
+app.post('/talker', checando,
+nome, idade, rating, talking, palestrante);

@@ -25,8 +25,26 @@ const sendID = async (lendo, id) => {
 
 const geradorToken = () => crypto.randomBytes(8).toString('hex');
 
+const palestrante = async (req, res) => {
+    const { name, age, talk } = req.body;
+      const palestra = await leitura();
+      if (name && age && talk) {
+        const novoPalestrante = {
+          id: palestra.length + 1,
+          name,
+          age,
+          talk,
+        };
+        palestra.push(novoPalestrante);
+        await fs.writeFile(lista, JSON.stringify(palestra));
+        return res.status(201).json(novoPalestrante);
+      }
+      return res.status(400).json({ message: 'Preencha todos os campos' });
+  };
+
 module.exports = {
     leitura,
     sendID,
     geradorToken,
+    palestrante,
 };
