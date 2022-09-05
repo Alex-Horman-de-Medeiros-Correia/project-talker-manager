@@ -42,9 +42,36 @@ const palestrante = async (req, res) => {
       return res.status(400).json({ message: 'Preencha todos os campos' });
   };
 
+  const editPalestrante = async (req, res) => {
+    const { name, age, talk } = req.body;
+    const { watchedAt, rate } = talk;
+    const { id } = req.params;
+    const palestra = await leitura();
+    const mudanca = palestra.findIndex((element) => element.id === Number(id));
+    palestra[mudanca].name = name;
+    palestra[mudanca].age = age;
+    palestra[mudanca].talk.watchedAt = watchedAt;
+    palestra[mudanca].talk.rate = rate;
+  
+    await fs.writeFile(lista, JSON.stringify(palestra));
+    return res.status(200).json(palestra[mudanca]).end();
+  };
+  
+  const deletando = async (req, res) => {
+    const { id } = req.params;
+    const palestra = await leitura();
+    const mudanca = palestra.findIndex((element) => element.id === Number(id));
+    palestra.splice(mudanca, 1);
+  
+    await fs.writeFile(lista, JSON.stringify(palestra));
+    return res.status(204).end();
+  };
+
 module.exports = {
     leitura,
     sendID,
     geradorToken,
     palestrante,
+    editPalestrante,
+    deletando,
 };

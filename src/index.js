@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { leitura, sendID, geradorToken, palestrante } = require('./func');
+const { leitura, sendID, geradorToken, palestrante,
+  editPalestrante, deletando } = require('./func');
 const { vemail } = require('./middlewares/email');
 const { vPassword } = require('./middlewares/password');
 const { checando,
@@ -53,3 +54,8 @@ app.post('/login', async (req, res) => {
 
 app.post('/talker', checando,
 nome, idade, rating, talking, palestrante);
+
+app.put('/talker/:id', checando,
+nome, idade, rating, talking, editPalestrante);
+
+app.delete('/talker/:id', checando, deletando);
